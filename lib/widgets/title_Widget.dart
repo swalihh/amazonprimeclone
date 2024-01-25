@@ -4,7 +4,7 @@ class RichTextWidget extends StatelessWidget {
   final String firstText;
   final String secondText;
 
-  RichTextWidget({required this.firstText, required this.secondText});
+  const RichTextWidget({super.key, required this.firstText, required this.secondText});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class RichTextWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: firstText,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
               fontSize: 20
@@ -21,7 +21,7 @@ class RichTextWidget extends StatelessWidget {
           ),
           TextSpan(
             text: secondText,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 20

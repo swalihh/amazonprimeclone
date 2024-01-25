@@ -1,4 +1,4 @@
-import 'package:amazonprime/screen/home.dart';
+import 'package:amazonprime/screen/bottombar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,6 +13,6 @@ class Myapp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       
-      home: Home( ) ,);
+      home: Start( ) ,);
   }
 }

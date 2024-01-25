@@ -1,11 +1,20 @@
-import 'dart:math';
-
-import 'package:amazonprime/widgets/title_Widget.dart';
+import 'package:amazonprime/funtion/api_funtion.dart';
+import 'package:amazonprime/widgets/recomentation.dart';
 import 'package:flutter/material.dart';
+import '../widgets/action_movie_widget.dart';
+import '../widgets/drama_Movie.dart';
+import '../widgets/home_widget.dart';
+import '../widgets/original_series.dart';
+import '../widgets/title_Widget.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -21,19 +30,20 @@ class Home extends StatelessWidget {
               children: [
                 Container(
                   width: deviceWidth,
-                  height: deviceHeight * 0.4,
-                  
+                  height: deviceHeight,
                   child: Column(
-                    
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(22.0),
                         child: Row(
                           children: [
                             Text(
                               'prime video',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18),
                             ),
                             Spacer(),
                             Icon(Icons.cast, color: Colors.white),
@@ -45,15 +55,14 @@ class Home extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container( 
+                      Container(
                         width: 300,
                         height: 35,
                         child: TabBar(
-                          indicator:BoxDecoration(
-                            color: Color.fromARGB(112, 106, 105, 101),
-                            borderRadius: BorderRadius.circular(20)
-                          ) ,                    
-                          tabs: [
+                          indicator: BoxDecoration(
+                              color: const Color.fromARGB(112, 106, 105, 101),
+                              borderRadius: BorderRadius.circular(20)),
+                          tabs: const [
                             Tab(
                               text: 'All',
                             ),
@@ -66,77 +75,142 @@ class Home extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20,),
-                      Expanded(child: TabBarView(
-                  children: [
-                    //  Tab 1
-                Container(height: 300,width: deviceWidth,child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-              return    Container(height: 300,width: deviceWidth,color:Colors.primaries[Random().nextInt(Colors.primaries.length)]);
-                }, separatorBuilder: (context, index) {
-                  return SizedBox(width: 10);
-                }, itemCount: 5),),
-                    //  Tab 2
-                    Center(
-                      child: Text('Tab 2 Content',style: TextStyle(color: Colors.amber),),
-                    ),
-          
-                    //  Tab 3
-                    Center(
-                      child: Text('Tab 3 Content',style: TextStyle(color: Colors.deepOrange),),
-                    ),
-                  ],
-                ), )
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            //  Tab 1
+                            SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // ignore: sized_box_for_whitespace
+                                  Container(
+                                    width: deviceWidth,
+                                    height: 270,
+                                    child: Main_Card(
+                                      future: fetchData(
+                                          'https://api.themoviedb.org/3/movie/upcoming?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                      deviceWidth: deviceWidth,
+                                    ),
+                                  ),
+                                  const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Amazon Original Series',
+                                  ),
+                                  Container(
+                                      height: 320,
+                                      width: deviceWidth,
+                                      child: PrimeSeriesWidget(
+                                          future: fetchData(
+                                              'https://api.themoviedb.org/3/movie/now_playing?api_key=9196c35ab323973adffd117ee8f6d5eb'))),
+                                  const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Recommended Movies',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: RecommendedMoviesWidget(future: fetchData('https://api.themoviedb.org/3/discover/movie?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                   const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Recommended Series',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: action_movie_widget(
+                                     future: fetchseriesData('https://api.themoviedb.org/3/discover/tv?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                   const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Tv shows',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: SeriesWidget(
+                                       future: fetchseriesData('https://api.themoviedb.org/3/discover/tv?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            //  Tab 2
+                            SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                     const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Recommended Movies',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: RecommendedMoviesWidget(future: fetchData('https://api.themoviedb.org/3/discover/movie?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                     const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Top Rated Movies',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: RecommendedMoviesWidget(future: fetchData('https://api.themoviedb.org/3/discover/movie?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                  
+                                ],
+                              ),
+                            ),
+                        
+
+                            //  Tab 3
+                            SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Most Popular Series',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: action_movie_widget(
+                                     future: fetchseriesData('https://api.themoviedb.org/3/discover/tv?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                    const RichTextWidget(
+                                    firstText: 'Prime',
+                                    secondText: '- Amazon Orginal Series',
+                                  ),
+                                  Container(
+                                    height: 320,
+                                    width: deviceWidth,
+                                    child: action_movie_widget(
+                                     future: fetchseriesData('https://api.themoviedb.org/3/discover/tv?api_key=9196c35ab323973adffd117ee8f6d5eb'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
-                const SizedBox(height: 10,),
-                    RichTextWidget(firstText: 'Prime', secondText: '- Amazon Original Series',),
-          
-                 const SizedBox(height: 5 ,),
-            SizedBox(
-              width: deviceWidth,
-              height: 200,
-              child: ListView.separated(
-                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                return Container(
-                  height: 300,width: 150,
-                  color:Colors.primaries[Random().nextInt(Colors.primaries.length)]
-                );
-              }, separatorBuilder: (context, index) =>const SizedBox(width: 5,), itemCount: 5),
-            ),
-             const SizedBox(height: 10,),
-                    RichTextWidget(firstText: 'Prime', secondText: '- Recommended Movies',),
-               const SizedBox(height: 5 ,),
-                SizedBox(
-              width: deviceWidth,
-              height: 150,
-              child: ListView.separated(
-                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                return Container(
-                 width: 200,
-                  color:Colors.primaries[Random().nextInt(Colors.primaries.length)]
-                );
-              }, separatorBuilder: (context, index) =>const SizedBox(width: 5,), itemCount: 5),
-            ),
-            const SizedBox(height: 10,),
-                    RichTextWidget(firstText: 'Prime', secondText: '- Recently Added Movies',),
-               const SizedBox(height: 5 ,),
-                SizedBox(
-              width: deviceWidth,
-              height: 150,
-              child: ListView.separated(
-                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                return Container(
-                 width: 200,
-                  color:Colors.primaries[Random().nextInt(Colors.primaries.length)]
-                );
-              }, separatorBuilder: (context, index) =>const SizedBox(width: 5,), itemCount: 5),
-            ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),
